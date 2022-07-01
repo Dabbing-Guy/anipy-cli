@@ -45,7 +45,7 @@ class entry:
     ep_url: str = ""
     embed_url: str = ""
     stream_url: str = ""
-    ep: typing.Union(int, float) = 0
+    ep: typing.Union[int, float] = 0
     latest_ep: int = 0
     quality: str = ""
 
