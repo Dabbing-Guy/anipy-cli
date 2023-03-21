@@ -12,112 +12,112 @@ class SysNotFoundError(Exception):
 class Config:
     def __init__(self):
         self._config_file, self._yaml_conf = Config._read_config()
-        
+
         if not self._yaml_conf:
             self._yaml_conf = {}
 
     @property
-    def _anipy_cli_folder(self):
+    def _anipy_cli_folder(self) -> Path:
         return Path(Path(__file__).parent)
 
     @property
-    def download_folder_path(self):
+    def download_folder_path(self) -> Path:
         return self._get_path_value(
             "download_folder_path", self._anipy_cli_folder / "download"
         )
 
     @property
-    def seasonals_dl_path(self):
+    def seasonals_dl_path(self) -> Path:
         return self._get_path_value(
             "seasonals_dl_path", self.download_folder_path / "seasonals"
         )
 
     @property
-    def user_files_path(self):
+    def user_files_path(self) -> Path:
         return self._get_path_value(
             "user_files_path", self._anipy_cli_folder / "user_files"
         )
 
     @property
-    def history_file_path(self):
+    def history_file_path(self) -> Path:
         return self.user_files_path / "history.json"
 
     @property
-    def seasonal_file_path(self):
+    def seasonal_file_path(self) -> Path:
         return self.user_files_path / "seasonals.json"
 
     @property
-    def gogoanime_url(self):
+    def gogoanime_url(self) -> str:
         return self._get_value("gogoanime_url", "https://gogoanime.gg/", str)
 
     @property
-    def player_path(self):
+    def player_path(self) -> str:
         return self._get_value("player_path", "mpv", str)
 
     @property
-    def mpv_commandline_options(self):
+    def mpv_commandline_options(self) -> str:
         return self._get_value("mpv_commandline_options", ["--keep-open=no"], list)
 
     @property
-    def vlc_commandline_options(self):
+    def vlc_commandline_options(self) -> list[str]:
         return self._get_value("vlc_commandline_options", [], list)
 
     @property
-    def reuse_mpv_window(self):
+    def reuse_mpv_window(self) -> bool:
         return self._get_value("reuse_mpv_window", False, bool)
 
     @property
-    def ffmpeg_hls(self):
+    def ffmpeg_hls(self) -> bool:
         return self._get_value("ffmpeg_hls", False, bool)
 
     @property
-    def ffmpeg_log_path(self):
+    def ffmpeg_log_path(self) -> Path:
         return self.user_files_path / "ffmpeg_log"
 
     @property
-    def download_name_format(self):
+    def download_name_format(self) -> str:
         return self._get_value(
             "download_name_format", "{show_name}_{episode_number}.mp4", str
         )
 
     @property
-    def download_remove_dub_from_folder_name(self):
+    def download_remove_dub_from_folder_name(self) -> bool:
         return self._get_value("download_remove_dub_from_folder_name", False, bool)
 
     @property
-    def dc_presence(self):
+    def dc_presence(self) -> bool:
         return self._get_value("dc_presence", False, bool)
 
     @property
-    def auto_open_dl_defaultcli(self):
+    def auto_open_dl_defaultcli(self) -> bool:
         return self._get_value("auto_open_dl_defaultcli", False, bool)
 
     @property
-    def mal_local_user_list_path(self):
+    def mal_local_user_list_path(self) -> Path:
         return self.user_files_path / "mal_list.json"
 
     @property
-    def mal_user(self):
+    def mal_user(self) -> str:
         return self._get_value("mal_user", "", str)
 
     @property
-    def mal_password(self):
+    def mal_password(self) -> str:
         return self._get_value("mal_password", "", str)
 
     @property
-    def auto_sync_mal_to_seasonals(self):
+    def auto_sync_mal_to_seasonals(self) -> bool:
         return self._get_value("auto_sync_mal_to_seasonals", False, bool)
 
     @property
-    def auto_map_mal_to_gogo(self):
+    def auto_map_mal_to_gogo(self) -> bool:
         return self._get_value("auto_map_mal_to_gogo", False, bool)
 
     @property
-    def mal_status_categories(self):
+    def mal_status_categories(self) -> list[str]:
         return self._get_value("mal_status_categories", list(["watching"]), list)
 
     @property
-    def anime_types(self):
+    def anime_types(self) -> list[str]:
         return self._get_value("anime_types", list(["sub", "dub"]), list)
 
     def _get_path_value(self, key: str, fallback: Path) -> Path:
@@ -156,7 +156,7 @@ class Config:
         except PermissionError as e:
             print(f"Failed to create config file: {repr(e)}")
             sys_exit(1)
-    
+
     @staticmethod
     @functools.lru_cache
     def _read_config():
@@ -167,9 +167,8 @@ class Config:
         except FileNotFoundError:
             # There is no config file, create one
             yaml_conf = {}
-        
-        return config_file, yaml_conf
 
+        return config_file, yaml_conf
 
     @staticmethod
     def _get_config_path() -> Path:
